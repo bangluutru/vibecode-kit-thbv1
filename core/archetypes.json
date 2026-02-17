@@ -13,6 +13,20 @@
       "types"
     ]
   },
+  "web-vite-vanilla": {
+    "description": "Lightweight Vite + Vanilla JS SPA",
+    "structure": [
+      "src/app",
+      "src/pages",
+      "src/components",
+      "src/services",
+      "src/utils",
+      "src/config",
+      "src/assets",
+      "src/styles",
+      "public"
+    ]
+  },
   "backend-nodejs-express": {
     "description": "Restful API with Clean Architecture",
     "structure": [
@@ -23,6 +37,19 @@
       "src/middlewares",
       "src/config",
       "src/utils"
+    ]
+  },
+  "backend-python-fastapi": {
+    "description": "Python FastAPI with Domain-Driven Structure",
+    "structure": [
+      "app/api/routes",
+      "app/api/deps",
+      "app/core",
+      "app/models",
+      "app/schemas",
+      "app/services",
+      "app/db",
+      "tests"
     ]
   },
   "mobile-react-native": {

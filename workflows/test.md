@@ -142,3 +142,93 @@ describe('AuthService', () => {
 - **Descriptive test names**
 - **Arrange-Act-Assert pattern**
 - **Mock external dependencies**
+
+---
+
+## Extended Testing (Visual & Quality)
+
+### /test responsive
+
+Test responsive design across breakpoints:
+
+```
+Breakpoints to test:
+- 📱 Mobile: 375px (iPhone SE)
+- 📱 Mobile L: 428px (iPhone 14)
+- 📲 Tablet: 768px (iPad)
+- 💻 Desktop: 1024px
+- 🖥️ Desktop L: 1440px
+```
+
+Steps:
+1. Open app in browser
+2. Resize to each breakpoint
+3. Verify: no horizontal scroll, readable text, functional navigation
+4. Check touch targets (min 44x44px on mobile)
+5. Test hamburger menu (if exists)
+
+### /test a11y
+
+Accessibility audit:
+
+// turbo
+```bash
+npx -y pa11y {url} 2>/dev/null || echo "Install: npm install -g pa11y"
+```
+
+Manual checks:
+- [ ] All images have `alt` text
+- [ ] Form inputs have `label` elements
+- [ ] Color contrast ratio ≥ 4.5:1
+- [ ] Keyboard navigation works (Tab, Enter, Escape)
+- [ ] Screen reader compatible (semantic HTML)
+- [ ] Focus indicators visible
+
+### /test lighthouse
+
+Performance & SEO audit:
+
+// turbo
+```bash
+npx -y lighthouse {url} --output=json --quiet 2>/dev/null | node -e "
+const r = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+const c = r.categories;
+console.log('Performance:', Math.round(c.performance.score*100));
+console.log('Accessibility:', Math.round(c.accessibility.score*100));
+console.log('Best Practices:', Math.round(c['best-practices'].score*100));
+console.log('SEO:', Math.round(c.seo.score*100));
+" || echo "Run Lighthouse from Chrome DevTools instead"
+```
+
+Target scores:
+| Category | Target |
+|----------|--------|
+| Performance | ≥ 80 |
+| Accessibility | ≥ 90 |
+| Best Practices | ≥ 90 |
+| SEO | ≥ 80 |
+
+### /test visual
+
+Visual regression testing:
+1. Capture screenshots of all pages (baseline)
+2. After changes, capture new screenshots
+3. Compare pixel-by-pixel
+4. Flag differences > 0.1%
+
+Use browser subagent to capture screenshots at multiple breakpoints.
+
+---
+
+## Usage
+
+```
+/test                        # Run all unit/integration tests
+/test [file/feature]         # Generate tests for target
+/test coverage               # Show coverage report
+/test watch                  # Watch mode
+/test responsive             # Check responsive design
+/test a11y                   # Accessibility audit
+/test lighthouse             # Performance + SEO scores
+/test visual                 # Screenshot comparison
+```

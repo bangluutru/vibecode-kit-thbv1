@@ -156,12 +156,45 @@ Run `/deploy rollback` if needed.
 
 ## Platform Support
 
-| Platform | Command | Notes |
-|----------|---------|-------|
-| Vercel | `vercel --prod` | Auto-detected for Next.js |
-| Railway | `railway up` | Needs Railway CLI |
-| Fly.io | `fly deploy` | Needs flyctl |
-| Docker | `docker compose up -d` | For self-hosted |
+| Platform | Command | Best For |
+|----------|---------|----------|
+| **Cloudflare Pages** | Git integration | Static/Vite sites, best free tier |
+| Vercel | `vercel --prod` | Next.js, React |
+| Railway | `railway up` | Full-stack, databases |
+| Fly.io | `fly deploy` | Docker containers |
+| Docker | `docker compose up -d` | Self-hosted |
+
+### Cloudflare Pages Setup
+
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → Workers & Pages → Create → Pages
+2. Connect to Git → select repo
+3. Configure:
+   - Framework preset: **None** (for Vite + Vanilla JS), or select matching framework
+   - Build command: `npm run build`
+   - Output directory: `dist`
+4. **Environment Variables** → Add all vars from `.env`
+5. Save and Deploy → URL: `{project}.pages.dev`
+
+### Post-Deploy: Auth Domain Authorization
+
+⚠️ **If using Firebase/Supabase Auth:**
+1. Add production domain to Auth → Authorized domains
+2. Without this, login will fail with "The requested action is invalid"
+
+---
+
+## Post-Deploy Verification
+
+```markdown
+## ✅ Post-Deploy Checklist
+
+- [ ] Site loads correctly
+- [ ] Login flow works on production domain
+- [ ] Core features functional
+- [ ] No console errors
+- [ ] API connections working
+- [ ] Mobile responsive
+```
 
 ---
 
@@ -174,3 +207,4 @@ Run `/deploy rollback` if needed.
 /deploy production --skip-tests
 /deploy rollback
 ```
+
